@@ -6,7 +6,9 @@ describe("StandardSqlFormatter", function() {
 
     it("formats ALTER TABLE ... MODIFY query", function() {
         const result = sqlFormatter.format(
-            "ALTER TABLE supplier MODIFY supplier_name char(100) NOT NULL;"
+            `SELECT CASE WHEN AUCTION_ID >= 35000000000 THEN AUCTION_ID ELSE CAST(AUCTION_ID - 30000000000 AS BIGINT) END AS K, AUCTION_POINT AS V
+            FROM TBODS.S_AUCTION_AUCTIONS
+            WHERE USER_TYPE = 2 AND AUCTION_ID IS NOT NULL AND COALESCE(BI_UDF:BI_KEY_VALUE(FEATURES, 'source'), CAST(0 AS STRING)) <> 'officialsite'`
         );
         expect(result).toBe(
             "ALTER TABLE\n" +
